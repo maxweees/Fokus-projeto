@@ -15,7 +15,7 @@ const beep = new Audio('./sons/beep.mp3') //seleciona o som de alerta do app
 const playTimer = new Audio('./sons/play.wav') //seleciona o som de iniciar o temporizador do app
 const pauseTimer = new Audio('./sons/pause.mp3') //seleciona o som de pausar o temporizador do app
 
-let contagemDeTempo = 1500; 
+let contagemDeTempo = 30; 
 let intervaloID = null
 musica.loop = true;
 
@@ -32,7 +32,7 @@ musicaFocoInput.addEventListener('change', () => {
 //funcao para alterar o contexto do app, mudando o banner, título e botão ativo de acordo com a escolha do usuário
 
 focoBt.addEventListener('click', () => {
-    contagemDeTempo = 1500
+    contagemDeTempo = 30
     alterarContexto('foco')
     focoBt.classList.add('active')
 })
@@ -82,6 +82,12 @@ const contagemRegressiva =() => {
     if(contagemDeTempo <= 0) {
         beep.play()
         alert('O tempo acabou!')
+        const focoAtivo = html.getAttribute('data-contexto') == 'foco'
+        if (focoAtivo){
+            const evento = new CustomEvent('FocoFinalizado')
+            document.dispatchEvent(evento)
+
+        }
         zerar()
         return
     }
